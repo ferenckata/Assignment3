@@ -6,6 +6,8 @@ import java.util.Collections;
 
 public class Company{
 
+    //test
+
     // ArrayList - to allow you to search for an employee based on the index (position)
     private ArrayList<Employee> employees;
     private static double directorBenefit;
