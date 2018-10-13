@@ -158,13 +158,13 @@ public class Menu {
                     reusax.sortBy();
                     break;
 
-                case SORT2:
+                /*case SORT2:
 
                     reusax.printEmployees();
                     String sorttype = UserInput.readString("Sort type (net salary or name)");
                     String sortorder = UserInput.readString("Sort order (up or down)");
                     reusax.sortBy(sorttype, sortorder);
-                    break;
+                    break;*/
 
                 default:
                     System.out.println("Option " + option + " is not valid.");

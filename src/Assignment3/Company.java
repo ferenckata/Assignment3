@@ -1,10 +1,10 @@
 package Assignment3;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 
 
-public class Company{
+public class Company implements Comparator<Employee> {
 
     //test
 
@@ -266,34 +266,65 @@ public class Company{
         System.out.println(this.employees);
     }
 
-    public void sortBy(){
-        Collections.sort(this.employees, new SortBy());
+    @Override
+    public int compare(Employee employee1, Employee employee2) {
+        return employee1.getName().compareTo(employee2.getName());
+    }
+
+    public void changeIndex(int i, int j){
+        Employee temp = this.employees.get(i);
+        this.employees.remove(i);
+        this.employees.add(i,this.employees.get(j-1));
+        this.employees.add(j,temp);
+        this.employees.remove(j+1);
         System.out.println(this.employees);
     }
 
-    public void sortBy(String method, String order){
-        if(method.equalsIgnoreCase("net salary")){
-
-            SortByNetSalary netSalarySorter = new SortByNetSalary();
-
-            if(order.equalsIgnoreCase("up")){
-                Collections.sort(this.employees,netSalarySorter);
-            }else{
-                Collections.sort(this.employees,Collections.reverseOrder(netSalarySorter));
+    public void sortBy(){
+        for (int i = 0; i < this.employees.size(); i++) {
+            for (int j = i+1; j < this.employees.size(); j++) {
+                int result = compare(this.employees.get(i),this.employees.get(j));
+                if(result>0){
+                    changeIndex(i,j);
+                }else if(result==0){
+                    if(this.employees.get(i).getGrossSalary() > this.employees.get(j).getGrossSalary()){
+                        changeIndex(i,j);
+                    }
+                }
             }
-        }else if(method.equalsIgnoreCase("Name")){
-
-            SortByName nameSorter = new SortByName();
-
-            if(order.equalsIgnoreCase("up")) {
-                Collections.sort(this.employees, nameSorter);
-            }else{
-                Collections.sort(this.employees,Collections.reverseOrder(nameSorter));
-            }
-
         }
-        System.out.print(this.employees);
     }
 
+    public void sortBy(String type, String direction){
+
+        if(type.equalsIgnoreCase("name")){
+            for (int i = 0; i < this.employees.size(); i++) {
+                for (int j = i+1; j < this.employees.size(); j++) {
+                    int result = compare(this.employees.get(i),this.employees.get(j));
+                    if(direction.equalsIgnoreCase("down")){
+                        result = (-1)*result;
+                    }
+                    if(result>0){
+                        changeIndex(i,j);
+                    }
+                }
+            }
+        }else if(type.equalsIgnoreCase("net salary")) {
+            for (int i = 0; i < this.employees.size(); i++) {
+                for (int j = i + 1; j < this.employees.size(); j++) {
+                    if (direction.equalsIgnoreCase("up")) {
+                        if (this.employees.get(i).getGrossSalary() > this.employees.get(j).getGrossSalary()) {
+                            changeIndex(i, j);
+                        }
+                    } else {
+                        if (this.employees.get(i).getGrossSalary() < this.employees.get(j).getGrossSalary()) {
+                            changeIndex(i, j);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
 
 }
